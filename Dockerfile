@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk17:jre-17.0.2_12-alpine
+FROM openjdk:17-oracle
 
 EXPOSE 8080
 
