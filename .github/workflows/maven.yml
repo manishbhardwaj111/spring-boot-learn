@@ -1,4 +1,4 @@
-name: Spring boot leran app build job
+name: Spring boot learn app build job
 
 on:
   push:
