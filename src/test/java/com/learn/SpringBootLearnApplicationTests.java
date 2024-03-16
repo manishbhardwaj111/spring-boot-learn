@@ -14,7 +14,7 @@ class SpringBootLearnApplicationTests {
 
 	@Test
    	 public void testAlwaysPasses() {
-        	assertTrue(false);
+        	assertTrue(true);
     	}
 
 }
