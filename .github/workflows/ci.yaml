@@ -1,0 +1,25 @@
+name: Spring boot learn app build job
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        java_version: [17, 20, 21]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Set up JDK ${{ matrix.java_version }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java_version }}
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn package
