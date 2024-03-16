@@ -10,11 +10,13 @@ jobs:
   build:
     strategy:
       matrix:
-        java_version: [17, 20, 21]
+        java_version: [17, 21]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Set up JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v2
         with:
