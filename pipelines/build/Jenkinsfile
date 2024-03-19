@@ -7,6 +7,7 @@ pipeline {
 
     tools {
         maven 'maven3'
+        docker 'docker'
     }
     
     stages {
@@ -20,7 +21,7 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 script {
-                    sh 'mvn package'
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -28,6 +29,8 @@ pipeline {
             steps {
                 script {
                     sh docker --version
+                    def dockerHome = tool 'docker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
                     docker.build('mabhardwaj/spring-boot-learn:latest')
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-cred') {
                         docker.image('mabhardwaj/spring-boot-learn:latest').push()
