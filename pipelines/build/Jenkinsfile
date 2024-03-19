@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+            }
+        }
+        stage('Finalize') {
+            steps {
+                echo 'Finalizing...'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'This will always run.'
+        }
+        success {
+            echo 'This will run only if successful.'
+        }
+        failure {
+            echo 'This will run only if failed.'
+        }
+        unstable {
+            echo 'This will run only if unstable.'
+        }
+        changed {
+            echo 'This will run only if the pipeline has changes.'
+        }
+    }
+}
