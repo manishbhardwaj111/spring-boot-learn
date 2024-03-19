@@ -1,16 +1,15 @@
 name: Spring boot learn app build job
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  spring-boot-learn-build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
