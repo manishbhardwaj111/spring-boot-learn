@@ -4,6 +4,10 @@ pipeline {
     environment {
         JAVA_HOME = '/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home'
     }
+
+    tools {
+        maven 'maven3'
+    }
     
     stages {
         stage('Checkout') {
