@@ -28,7 +28,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh docker --version
+                    sh 'docker --version' // Corrected command to check Docker version
                     def dockerHome = tool 'docker'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
                     docker.build('mabhardwaj/spring-boot-learn:latest')
