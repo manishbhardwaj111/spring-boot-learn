@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Git repository
-                git branch: 'main', url: 'https://github.com/your/repo.git'
+                git branch: 'main', url: 'https://github.com/manishbhardwaj111/spring-boot-learn.git'
             }
         }
         stage('Read Version from pom.xml') {
