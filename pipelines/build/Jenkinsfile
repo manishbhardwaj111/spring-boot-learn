@@ -30,9 +30,20 @@ pipeline {
                 echo 'Build stage.'
             }
         }
-        stage('Push to Artificatory') {
+        stage('Push to Artifactory') {
             steps {
-                echo 'Push to Artificatory.'
+                script {
+                    echo 'Push to Artifactory.'
+                    def userInput = input(message: 'Proceed with pushing to Artifactory?', parameters: [
+                        choice(choices: ['Proceed', 'Abort'], description: 'Choose to proceed or abort', name: 'Action')
+                    ])
+                    if (userInput == 'Proceed') {
+                        // Add your code for pushing to Artifactory here
+                        echo 'Pushing to Artifactory...'
+                    } else {
+                        error('Aborted by user.')
+                    }
+                }
             }
         }
     }
