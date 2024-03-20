@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from Git repository
+                git branch: 'main', url: 'https://github.com/your/repo.git'
+            }
+        }
+        stage('Read Version from pom.xml') {
+            steps {
+                script {
+                    // Read the version from pom.xml and store it in a variable
+                    def pomVersion = sh(script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+                    echo "Current version from pom.xml: ${pomVersion}"
+                    // Extract major, minor, and patch versions
+                    def (major, minor, patch) = pomVersion.tokenize('.')
+                    // Increase the patch version by 1
+                    def newVersion = "${major}.${minor}.${patch.toInteger() + 1}"
+                    echo "New version to be published: ${newVersion}"
+                    // Set the new version in the pom.xml file
+                    sh "mvn versions:set -DnewVersion=${newVersion}"
+                    // Commit the updated pom.xml
+                    gitAdd('pom.xml')
+                    gitCommit("Bump version to ${newVersion}")
+                }
+            }
+        }
+        stage('Publish Git Tag') {
+            steps {
+                script {
+                    // Push the changes and tag to Git
+                    gitPush('origin', 'main')
+                    gitTag("v${newVersion}")
+                    gitPushTags('origin')
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Build successful.'
+        }
+        failure {
+            echo 'Build failed.'
+        }
+    }
+}
+
+// Custom functions for Git operations
+
+def gitAdd(file) {
+    sh "git add ${file}"
+}
+
+def gitCommit(message) {
+    sh "git commit -m '${message}'"
+}
+
+def gitPush(remote, branch) {
+    sh "git push ${remote} ${branch}"
+}
+
+def gitTag(tagName) {
+    sh "git tag ${tagName}"
+}
+
+def gitPushTags(remote) {
+    sh "git push ${remote} --tags"
+}
