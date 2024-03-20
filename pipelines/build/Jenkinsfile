@@ -25,11 +25,14 @@ pipeline {
                 }
             }
         }
-        stage('Build and Push Docker Image') {
+        stage('Build') {
             steps {
-                script {
-                    
-                }
+                echo 'Build stage.'
+            }
+        }
+        stage('Push to Artificatory') {
+            steps {
+                echo 'Push to Artificatory.'
             }
         }
     }
